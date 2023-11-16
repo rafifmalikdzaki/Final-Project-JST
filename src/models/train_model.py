@@ -11,5 +11,8 @@ class LVQ3:
         self.beta = beta
         self.decay = decay
 
+    def distanceM(self, input: np.ndarray[np.double], method="euclidean") -> np.ndarray[np.double]:
+        return np.apply_along_axis(np.linalg.norm, 1, input-self.weight)
+
     def fit(self, train, target):
         pass
