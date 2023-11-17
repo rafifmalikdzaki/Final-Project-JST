@@ -48,7 +48,21 @@ class LVQ3:
 
             if self.window(distances):
                 if left ^ right:
-                    continue
+                    if not left:
+                        yc1 = self.weight[winner]
+                        yc2 = self.weight[runnerUp]
+
+                        # Update weight
+                        self.weight[winner] = yc1 + self.alpha*(x - yc1)
+                        self.weight[runnerUp] = yc2 - self.alpha*(x - yc2)
+                    elif not right:
+                        yc1 = self.weight[runnerUp]
+                        yc2 = self.weight[winner]
+
+                        # Update weight
+                        self.weight[runnerUp] = yc1 + self.alpha*(x - yc1)
+                        self.weight[winner] = yc2 - self.alpha*(x - yc2)
+
                 elif winner == target == runnerUp:
                     continue
 
