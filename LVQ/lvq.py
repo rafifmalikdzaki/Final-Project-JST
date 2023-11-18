@@ -3,7 +3,7 @@ import numpy as np
 
 class LVQ3:
 
-    def __init__(self, alpha=0.1, epoch=100, beta=0.25, decay=0.1, m=0.1, dMethod="euclidean", epsilon=0.2, random_state=None):
+    def __init__(self, alpha=0.1, epoch=100, beta=0.25, decay=0.1, m=0.15, dMethod="euclidean", epsilon=0.2, random_state=None):
         self.l_input = None
         self.o_input = None
         self.weight = None
