@@ -39,3 +39,14 @@ class OneVsRestClassifier:
             argmaxima[maxima == pred] = i
         return self.classes_[argmaxima]
 
+
+class OneVsOneClassifier:
+    pass
+
+
+class SoftMax:
+    pass
+
+
+class NearestClassMean:
+    pass
