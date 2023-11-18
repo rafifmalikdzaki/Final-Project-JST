@@ -21,7 +21,7 @@ class LVQ3:
         if self.dMethod == "euclidean":
             return np.apply_along_axis(np.linalg.norm, 1, input-self.weight)
 
-    def competitiveLayer(self, input: np.ndarray) -> [int, int]:
+    def competitiveLayer(self, input: np.ndarray) -> [int, int, np.array]:
         distances = self.distanceM(input)
         distanceArgs = np.argsort(distances)
         winner, runnerUp = distanceArgs[0], distanceArgs[1]
