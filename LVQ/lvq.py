@@ -25,9 +25,11 @@ class LVQ3:
         distances = self.distanceM(input)
         distanceArgs = np.argsort(distances)
         winner, runnerUp = distanceArgs[0], distanceArgs[1]
-        return winner, runnerUp, distances[:2]
+        return winner, runnerUp, distances[[winner, runnerUp]]
 
     def window(self, distances: np.ndarray) -> bool:
+        if np.isin(distances, 0).any():
+            return False
         ratios = (distances[0]/distances[1], distances[1]/distances[0])
         minRat = np.min(ratios)
         return minRat > ((1-self.epsilon)*(1+self.epsilon))
@@ -52,20 +54,20 @@ class LVQ3:
 
                 if self.window(distances):
                     if left ^ right:
-                        if not left:
-                            yc1 = self.weight[winner]
-                            yc2 = self.weight[runnerUp]
-
-                            # Update weight
-                            self.weight[winner] = yc1 + self.alpha*(x - yc1)
-                            self.weight[runnerUp] = yc2 - self.alpha*(x - yc2)
-                        elif not right:
+                        if left:
                             yc1 = self.weight[runnerUp]
                             yc2 = self.weight[winner]
 
                             # Update weight
                             self.weight[runnerUp] = yc1 + self.alpha*(x - yc1)
                             self.weight[winner] = yc2 - self.alpha*(x - yc2)
+                        elif right:
+                            yc1 = self.weight[winner]
+                            yc2 = self.weight[runnerUp]
+
+                            # Update weight
+                            self.weight[winner] = yc1 + self.alpha*(x - yc1)
+                            self.weight[runnerUp] = yc2 - self.alpha*(x - yc2)
 
                     elif winner == target == runnerUp:
                         yc1 = self.weight[winner]
