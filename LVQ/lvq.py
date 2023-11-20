@@ -49,9 +49,6 @@ class LVQ3:
                 target = y[i]
                 left, right = (winner != target), (runnerUp != target)
 
-                if left & right:
-                    continue
-
                 if self.window(distances):
                     if left ^ right:
                         if left:
