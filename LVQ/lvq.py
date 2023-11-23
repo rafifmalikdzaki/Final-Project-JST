@@ -1,12 +1,15 @@
 import numpy as np
+from sklearn.base import BaseEstimator
 
+class LVQ3(BaseEstimator):
 
-class LVQ3:
+    def __init__(self, input_size, output_size, alpha=0.1, epoch=100, beta=0.25, decay=0.1, m=0.15, dMethod="euclidean", epsilon=0.2, random_state=None):
+        if random_state:
+            np.random.seed(random_state)
 
-    def __init__(self, alpha=0.1, epoch=100, beta=0.25, decay=0.1, m=0.15, dMethod="euclidean", epsilon=0.2, random_state=None):
-        self.l_input = None
-        self.o_input = None
-        self.weight = None
+        self.i_size = input_size
+        self.o_size = output_size
+        self.weight = np.random.uniform(low=-1, high=1, size=(self.o_size, self.i_size))
         self.dMethod = dMethod
         self.alpha = alpha
         self.beta = beta
@@ -14,8 +17,6 @@ class LVQ3:
         self.m = m
         self.epoch = epoch
         self.epsilon = epsilon
-        if random_state:
-            np.random.seed(random_state)
 
     def distanceM(self, input: np.ndarray) -> np.ndarray:
         if self.dMethod == "euclidean":
@@ -37,12 +38,8 @@ class LVQ3:
     def fit(self, train, target):
         X = np.array(train)
         y = np.array(target)
-
-        self.l_input = X.shape[1]
-        self.o_input = np.unique(y).shape[0]
-        self.weight = np.random.uniform(low=-1, high=1, size=(self.o_input, self.l_input))
-
         epoch = 1
+
         while epoch <= self.epoch:
             for i, x in enumerate(X):
                 winner, runnerUp, distances = self.competitiveLayer(x)
