@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.spatial.distance import cosine
 from sklearn.base import BaseEstimator
 
 class LVQ3(BaseEstimator):
@@ -21,6 +22,11 @@ class LVQ3(BaseEstimator):
     def distanceM(self, input: np.ndarray) -> np.ndarray:
         if self.dMethod == "euclidean":
             return np.apply_along_axis(np.linalg.norm, 1, input-self.weight)
+        if self.dMethod == "cosine":
+            d = []
+            for w in self.weight:
+                d.append(cosine(input, w))
+            return np.array(d)
 
     def competitiveLayer(self, input: np.ndarray) -> [int, int, np.ndarray]:
         distances = self.distanceM(input)
